@@ -12,9 +12,7 @@ def parse_sst(filename):
     print(filename)
     with open(filename) as input_file:
         orig_lines = csv.reader(input_file, delimiter='\t')
-        output_filename = './Edited/{}'.format(filename)
-        if not os.path.exists('Edited'):
-            os.makedirs('Edited')
+        output_filename = '.'.join([filename[:-4], 'son'])
         with open(output_filename, 'a') as output_file:
             for line in orig_lines:
                 if len(line) is not 4:
