@@ -3,6 +3,7 @@
 import csv
 import glob
 import os
+import re
 import sys
 
 
@@ -15,7 +16,7 @@ def parse_sst(filename):
         output_filename = '.'.join([filename[:-4], 'son'])
         with open(output_filename, 'a') as output_file:
             for line in orig_lines:
-                if len(line) is not 4:
+                if not re.match('\d{4}', line[0]):
                     output_file.write(line[0])
                 else:
                     validate_timecodes(line)
