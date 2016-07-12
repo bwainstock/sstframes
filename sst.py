@@ -2,7 +2,6 @@
 
 import csv
 import glob
-import os
 import re
 import sys
 
@@ -14,13 +13,13 @@ def parse_tabs(filename):
 def parse_spaces(filename):
     """Parser for space delimited file"""
     orig_lines = filename.readlines()
-    lines = [re.sub('\s+', ' ', line.strip('\n')).split() for line in orig_lines]
+    lines = [re.sub(r'\s+', ' ', line.strip(r'\n')).split() for line in orig_lines]
     lines = []
     for line in orig_lines:
-        if not re.match('\d{4}', line):
+        if not re.match(r'\d{4}', line):
             lines.append([line.strip('\n')])
         else:
-            stripped_line = re.sub('\s+', ' ', line.strip('\n')).split()
+            stripped_line = re.sub(r'\s+', ' ', line.strip('\n')).split()
             lines.append(stripped_line)
     return lines
 
@@ -38,7 +37,7 @@ def parse_sst(filename):
         output_filename = '.'.join([filename[:-4], 'son'])
         with open(output_filename, 'a') as output_file:
             for line in orig_lines:
-                if not re.match('\d{4}', line[0]):
+                if not re.match(r'\d{4}', line[0]):
                     output_file.write(line[0])
                 else:
                     validate_timecodes(line)
