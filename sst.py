@@ -7,12 +7,34 @@ import re
 import sys
 
 
+def parse_tabs(filename):
+    """Parser for tab delimited file"""
+    return csv.reader(filename, delimiter='\t')
+
+def parse_spaces(filename):
+    """Parser for space delimited file"""
+    orig_lines = filename.readlines()
+    lines = [re.sub('\s+', ' ', line.strip('\n')).split() for line in orig_lines]
+    lines = []
+    for line in orig_lines:
+        if not re.match('\d{4}', line):
+            lines.append([line.strip('\n')])
+        else:
+            stripped_line = re.sub('\s+', ' ', line.strip('\n')).split()
+            lines.append(stripped_line)
+    return lines
+
 def parse_sst(filename):
     """Reads in lines of sst file and modified timestamps"""
 
     print(filename)
     with open(filename) as input_file:
-        orig_lines = csv.reader(input_file, delimiter='\t')
+        if re.findall('\t', input_file.read()):
+            input_file.seek(0)
+            orig_lines = parse_tabs(input_file)
+        else:
+            input_file.seek(0)
+            orig_lines = parse_spaces(input_file)
         output_filename = '.'.join([filename[:-4], 'son'])
         with open(output_filename, 'a') as output_file:
             for line in orig_lines:
