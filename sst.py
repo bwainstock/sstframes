@@ -43,7 +43,7 @@ def parse_sst(filename):
                     validate_timecodes(line)
                     modified_line = increment_line(line)
                     output_file.write('\t'.join(modified_line))
-                output_file.write('\r\n')
+                output_file.write('\n')
 
 
 def validate_timecodes(timestamp):
